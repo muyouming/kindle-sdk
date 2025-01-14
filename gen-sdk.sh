@@ -24,7 +24,7 @@ Setup_SDK() {
         chmod a+w $tc_dir/meson-crosscompile.txt
     fi
 
-    echo "[binaries]" >> $tc_dir/meson-crosscompile.txt
+    echo "[binaries]" > $tc_dir/meson-crosscompile.txt
     echo "c = '$tc_dir/bin/$tc_target-gcc'" >> $tc_dir/meson-crosscompile.txt
     echo "cpp = '$tc_dir/bin/$tc_target-g++'" >> $tc_dir/meson-crosscompile.txt
     echo "ar = '$tc_dir/bin/$tc_target-ar'" >> $tc_dir/meson-crosscompile.txt
@@ -121,7 +121,7 @@ Setup_SDK() {
     popd
 }
 
-sudo echo
+sudo echo # Do sudo auth beforehand in case the user leaves when we actually need it lol
 
 HELP_MSG="
 kindle-sdk - The Unofficial Kindle SDK
