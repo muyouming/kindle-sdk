@@ -1,7 +1,7 @@
 #!/bin/sh
 
-ARMEL_FIRM_URL="https://www.amazon.com/update_Kindle_Oasis_9th_Gen"
-ARMHF_FIRM_URL="https://www.amazon.com/update_KindlePaperwhite_12th_Gen_2024"
+ARMEL_FIRM_URL="https://www.amazon.com/update_Kindle_Paperwhite_6th_Gen" # MUH GLIBC
+ARMHF_FIRM_URL="https://www.amazon.com/update_Kindle_Paperwhite_10th_Gen"
 
 Setup_SDK() {
     tc_target="$1"
