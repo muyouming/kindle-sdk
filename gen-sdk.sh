@@ -64,9 +64,9 @@ Setup_SDK() {
     fi
 
     echo "[*] Building Latest KindleTool"
-    pushd KindleTool/
+    cd KindleTool/
         make
-    popd
+    cd ..
 
     echo "[*] Extracting firmware"
     if [ -d "./cache/${arch}/firmware/" ]; then
@@ -74,11 +74,11 @@ Setup_SDK() {
     fi
 
     KindleTool/KindleTool/Release/kindletool extract "./cache/${arch}/firmware.bin" "./cache/${arch}/firmware/"
-    pushd "./cache/${arch}/firmware/"
+    cd "./cache/${arch}/firmware/"
         gunzip rootfs.img.gz
         mkdir mnt
         sudo mount -o loop rootfs.img mnt
-    popd
+    cd ../../..
 
     echo "[*] Parsing pkgconfig files"
     mkdir -p ./overlay/any/usr/lib/pkgconfig
@@ -91,15 +91,16 @@ Setup_SDK() {
 
     echo "[*] Copying overlay files to sysroot"
     # Copy universal stuff
-    pushd "./overlay/any"
+    cd "./overlay/any"
         find . -type d -exec chmod -R a+w $sysroot_dir/{} ';'
-    popd
+    cd ../..
+
     chmod a+w $sysroot_dir/
     cp -rv ./overlay/any/* $sysroot_dir/
     chmod a-w $sysroot_dir/
-    pushd "./overlay/any"
+    cd "./overlay/any"
         find . -type d -exec chmod -R a-w $sysroot_dir/{} ';'
-    popd
+    cd ../..
 
     echo "[*] Copying firmware library files to sysroot"
     chmod -R a+w $sysroot_dir/lib
@@ -116,9 +117,9 @@ Setup_SDK() {
 
 
     echo "[*] Cleaning up"
-    pushd "./cache/${arch}/firmware/"
+    cd "./cache/${arch}/firmware/"
         sudo umount mnt
-    popd
+    cd ../../..
 
     echo "===================================================================================================="
     echo "[*] Kindle (unofficial) SDK Installed"
