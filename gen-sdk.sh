@@ -24,11 +24,15 @@ Setup_SDK() {
         chmod a+w $tc_dir/meson-crosscompile.txt
     fi
 
-    echo "[binaries]" > $tc_dir/meson-crosscompile.txt
-    echo "c = '/home/$USER/x-tools/$tc_target/bin/$tc_target-gcc'" >> $tc_dir/meson-crosscompile.txt
-    echo "cpp = '/home/$USER/x-tools/$tc_target/bin/$tc_target-g++'" >> $tc_dir/meson-crosscompile.txt
-    echo "ar = '/home/$USER/x-tools/$tc_target/bin/$tc_target-ar'" >> $tc_dir/meson-crosscompile.txt
-    echo "strip = '/home/$USER/x-tools/$tc_target/bin/$tc_target-strip'" >> $tc_dir/meson-crosscompile.txt
+    echo "[binaries]" >> $tc_dir/meson-crosscompile.txt
+    echo "c = '$tc_dir/bin/$tc_target-gcc'" >> $tc_dir/meson-crosscompile.txt
+    echo "cpp = '$tc_dir/bin/$tc_target-g++'" >> $tc_dir/meson-crosscompile.txt
+    echo "ar = '$tc_dir/bin/$tc_target-ar'" >> $tc_dir/meson-crosscompile.txt
+    echo "strip = '$tc_dir/bin/$tc_target-strip'" >> $tc_dir/meson-crosscompile.txt
+    echo "pkg-config = 'pkg-config'" >> $tc_dir/meson-crosscompile.txt
+    echo "" >> $tc_dir/meson-crosscompile.txt
+    echo "[built-in options]" >> $tc_dir/meson-crosscompile.txt
+    echo "pkg_config_path = '$tc_dir/$tc_target/sysroot/usr/lib/pkgconfig'" >> $tc_dir/meson-crosscompile.txt
     echo "" >> $tc_dir/meson-crosscompile.txt
     echo "[host_machine]" >> $tc_dir/meson-crosscompile.txt
     echo "system = 'linux'" >> $tc_dir/meson-crosscompile.txt
