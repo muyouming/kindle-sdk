@@ -128,6 +128,7 @@ Setup_SDK() {
 }
 
 sudo echo # Do sudo auth beforehand in case the user leaves when we actually need it lol
+cd $(dirname "$0")
 
 HELP_MSG="
 kindle-sdk - The Unofficial Kindle SDK
