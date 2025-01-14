@@ -119,6 +119,12 @@ Setup_SDK() {
     pushd "./cache/${arch}/firmware/"
         sudo umount mnt
     popd
+
+    echo "===================================================================================================="
+    echo "[*] Kindle (unofficial) SDK Installed"
+    echo "[*] To cross-compile via Meson, use the meson-crosscompile.txt file at:"
+    echo "[*] $tc_dir/meson-crosscompile.txt"
+    echo "===================================================================================================="
 }
 
 sudo echo # Do sudo auth beforehand in case the user leaves when we actually need it lol
