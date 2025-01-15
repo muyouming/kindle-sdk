@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ARMEL_FIRM_URL="https://www.amazon.com/update_Kindle_Paperwhite_6th_Gen" # MUH GLIBC
+ARMEL_FIRM_URL="https://s3.amazonaws.com/firmwaredownloads/update_kindle_paperwhite_v2_5.8.7.bin" # MUH GLIBC
 ARMHF_FIRM_URL="https://www.amazon.com/update_Kindle_Paperwhite_10th_Gen"
 
 Setup_SDK() {
