@@ -96,26 +96,25 @@ Setup_SDK() {
     cd ../..
 
     chmod a+w $sysroot_dir/
-    cp -rv ./overlay/any/* $sysroot_dir/
+    cp -r ./overlay/any/* $sysroot_dir/
     chmod a-w $sysroot_dir/
     cd "./overlay/any"
         find . -type d -exec chmod -R a-w $sysroot_dir/{} ';'
     cd ../..
 
-    echo "[*] Copying openlipc to sysroot"
-    chmod a+w $sysroot_dir/usr/include
-    chmod a+w $sysroot_dir/usr/include/lipc.h
-    cp -v ./openlipc/include/openlipc.h $sysroot_dir/usr/include/lipc.h
-    chmod a-w $sysroot_dir/usr/include/lipc.h
-    chmod a-w $sysroot_dir/usr/include
+    echo "[*] Executing jobs for additional libraries"
+    for job in './jobs/*'
+    do
+        source $job
+    done
 
     echo "[*] Copying firmware library files to sysroot"
     chmod -R a+w $sysroot_dir/lib
     chmod -R a+w $sysroot_dir/usr/lib
     sudo chown -R $USER: ./cache/${arch}/firmware/mnt/usr/lib/*
     sudo chown -R $USER: ./cache/${arch}/firmware/mnt/lib/*
-    cp -rvn ./cache/${arch}/firmware/mnt/usr/lib/* $sysroot_dir/usr/lib/
-    cp -rvn ./cache/${arch}/firmware/mnt/lib/* $sysroot_dir/lib/
+    cp -rn ./cache/${arch}/firmware/mnt/usr/lib/* $sysroot_dir/usr/lib/
+    cp -rn ./cache/${arch}/firmware/mnt/lib/* $sysroot_dir/lib/
     chmod -R a-w $sysroot_dir/usr/lib
     chmod -R a-w $sysroot_dir/lib
 
