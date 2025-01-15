@@ -133,8 +133,8 @@ Setup_SDK() {
     chmod -R a+w $sysroot_dir/usr/lib
     sudo chown -R $USER: ./cache/${arch}/firmware/mnt/usr/lib/*
     sudo chown -R $USER: ./cache/${arch}/firmware/mnt/lib/*
-    cp -rn ./cache/${arch}/firmware/mnt/usr/lib/* $sysroot_dir/usr/lib/
-    cp -rn ./cache/${arch}/firmware/mnt/lib/* $sysroot_dir/lib/
+    cp -r ./cache/${arch}/firmware/mnt/usr/lib/* $sysroot_dir/usr/lib/
+    cp -r ./cache/${arch}/firmware/mnt/lib/* $sysroot_dir/lib/
     chmod -R a-w $sysroot_dir/usr/lib
     chmod -R a-w $sysroot_dir/lib
 
