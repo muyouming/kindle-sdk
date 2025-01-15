@@ -102,11 +102,31 @@ Setup_SDK() {
         find . -type d -exec chmod -R a-w $sysroot_dir/{} ';'
     cd ../..
 
+
+
     echo "[*] Executing jobs for additional libraries"
-    for job in './jobs/*'
-    do
-        . $job
-    done
+    ###
+    # Lipc
+    ###
+    echo "[*] Copying openlipc to sysroot"
+    chmod a+w $sysroot_dir/usr/include
+    chmod a+w $sysroot_dir/usr/include/lipc.h
+    cp ./openlipc/include/openlipc.h $sysroot_dir/usr/include/lipc.h
+    chmod a-w $sysroot_dir/usr/include/lipc.h
+    chmod a-w $sysroot_dir/usr/include
+
+    ###
+    # cJSON
+    ###
+    echo "[*] Copying cJSON to sysroot"
+    chmod a+w $sysroot_dir/usr/include
+    chmod a+w $sysroot_dir/usr/include/cJSON.h
+    cp ./cJSON/cJSON.h $sysroot_dir/usr/include/cJSON.h
+    chmod a-w $sysroot_dir/usr/include
+    chmod a-w $sysroot_dir/usr/include/cJSON.h
+
+
+
 
     echo "[*] Copying firmware library files to sysroot"
     chmod -R a+w $sysroot_dir/lib
