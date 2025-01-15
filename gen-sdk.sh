@@ -105,7 +105,7 @@ Setup_SDK() {
     echo "[*] Executing jobs for additional libraries"
     for job in './jobs/*'
     do
-        source $job
+        . $job
     done
 
     echo "[*] Copying firmware library files to sysroot"
