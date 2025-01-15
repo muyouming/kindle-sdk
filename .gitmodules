@@ -1,3 +1,6 @@
 [submodule "KindleTool"]
 	path = KindleTool
 	url = https://github.com/KindleModding/KindleTool.git
+[submodule "openlipc"]
+	path = openlipc
+	url = https://github.com/arkq/openlipc.git

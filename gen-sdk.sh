@@ -102,6 +102,15 @@ Setup_SDK() {
         find . -type d -exec chmod -R a-w $sysroot_dir/{} ';'
     cd ../..
 
+    echo "[*] Copying openlipc to sysroot"
+    cd "./openlipc/include/"
+        find . -type d -exec chmod -R a+w $sysroot_dir/usr/include/{} ';'
+    cd ../..
+    cp -rv ./openlipc/include/* $sysroot_dir/usr/include/
+    cd "./openlipc/include/"
+        find . -type d -exec chmod -R a+w $sysroot_dir/usr/include/{} ';'
+    cd ../..
+
     echo "[*] Copying firmware library files to sysroot"
     chmod -R a+w $sysroot_dir/lib
     chmod -R a+w $sysroot_dir/usr/lib

@@ -1,0 +1,12 @@
+# OpenLIPC
+prefix=%SYSROOT%/usr
+exec_prefix=${prefix}
+includedir=${prefix}/include
+libdir=${exec_prefix}/lib
+
+Name: openlipc
+Description: Open-source LIPC header file
+URL: https://github.com/arkq/openlipc
+Version: 1.0.0
+Libs: -L${libdir} -llipc
+Cflags: -I${includedir}
