@@ -103,13 +103,11 @@ Setup_SDK() {
     cd ../..
 
     echo "[*] Copying openlipc to sysroot"
-    cd "./openlipc/include/"
-        find . -type d -exec chmod -R a+w $sysroot_dir/usr/include/{} ';'
-    cd ../..
-    cp -rv ./openlipc/include/* $sysroot_dir/usr/include/
-    cd "./openlipc/include/"
-        find . -type d -exec chmod -R a+w $sysroot_dir/usr/include/{} ';'
-    cd ../..
+    chmod a+w $sysroot_dir/usr/include
+    chmod a+w $sysroot_dir/usr/include/lipc.h
+    cp -v ./openlipc/include/openlipc.h $sysroot_dir/usr/include/lipc.h
+    chmod a-w $sysroot_dir/usr/include/lipc.h
+    chmod a-w $sysroot_dir/usr/include
 
     echo "[*] Copying firmware library files to sysroot"
     chmod -R a+w $sysroot_dir/lib
