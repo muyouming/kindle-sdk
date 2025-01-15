@@ -1,4 +1,3 @@
-# OpenLIPC
 prefix=%SYSROOT%/usr
 exec_prefix=${prefix}
 includedir=${prefix}/include
