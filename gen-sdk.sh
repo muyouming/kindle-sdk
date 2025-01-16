@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ARMEL_FIRM_URL="https://www.amazon.com/update_Kindle_Paperwhite_6th_Gen" # MUH GLIBC
+ARMEL_FIRM_URL="https:/s3.amazonaws.com/G7G_FirmwareUpdates_WebDownloads/update_kindle_paperwhite_v2_5.6.1.0.6.bin" # MUH GLIBC
 ARMHF_FIRM_URL="https://www.amazon.com/update_Kindle_Paperwhite_10th_Gen"
 
 Setup_SDK() {
@@ -133,8 +133,8 @@ Setup_SDK() {
     chmod -R a+w $sysroot_dir/usr/lib
     sudo chown -R $USER: ./cache/${arch}/firmware/mnt/usr/lib/*
     sudo chown -R $USER: ./cache/${arch}/firmware/mnt/lib/*
-    cp -r ./cache/${arch}/firmware/mnt/usr/lib/* $sysroot_dir/usr/lib/
-    cp -r ./cache/${arch}/firmware/mnt/lib/* $sysroot_dir/lib/
+    cp -rn ./cache/${arch}/firmware/mnt/usr/lib/* $sysroot_dir/usr/lib/
+    cp -rn ./cache/${arch}/firmware/mnt/lib/* $sysroot_dir/lib/
     chmod -R a-w $sysroot_dir/usr/lib
     chmod -R a-w $sysroot_dir/lib
 
