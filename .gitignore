@@ -1,7 +1,7 @@
 cache/
-overlay/*/usr/lib/pkgconfig
+patch/*/usr/lib/pkgconfig
 
 # Headers copied at gentime:
-overlay/any/usr/include/cJSON_Utils.h
-overlay/any/usr/include/cJSON.h
-overlay/any/usr/include/lipc.h
+patch/any/usr/include/cJSON_Utils.h
+patch/any/usr/include/cJSON.h
+patch/any/usr/include/lipc.h

@@ -80,40 +80,40 @@ Setup_SDK() {
         sudo mount -o loop rootfs.img mnt
     cd ../../..
 
+    
+
     echo "[*] Parsing pkgconfig files"
-    mkdir -p ./overlay/any/usr/lib/pkgconfig
-    cp -r ./pkgconfig ./overlay/any/usr/lib/
-    for filepath in ./overlay/any/usr/lib/pkgconfig/*
+    mkdir -p ./patch/any/usr/lib/pkgconfig
+    cp -r ./pkgconfig ./patch/any/usr/lib/
+    for filepath in ./patch/any/usr/lib/pkgconfig/*
     do
         sed -i "s@%SYSROOT%@$sysroot_dir@g" "$filepath"
         sed -i "s@%TARGET%@$tc_target@g" "$filepath"
     done
-
-
 
     echo "[*] Executing jobs for additional libraries"
     ###
     # Lipc
     ###
     echo "[*] Copying openlipc"
-    cp ./openlipc/include/openlipc.h ./overlay/any/usr/include/lipc.h
+    cp ./openlipc/include/openlipc.h ./patch/any/usr/include/lipc.h
 
     echo "[*] Copying cJSON"
-    cp ./cJSON/cJSON.h ./overlay/any/usr/include/cJSON.h
-    cp ./cJSON/cJSON_Utils.h ./overlay/any/usr/include/cJSON_Utils.h
+    cp ./cJSON/cJSON.h ./patch/any/usr/include/cJSON.h
+    cp ./cJSON/cJSON_Utils.h ./patch/any/usr/include/cJSON_Utils.h
 
 
 
-    echo "[*] Copying overlay files to sysroot"
+    echo "[*] Copying patch files to sysroot"
     # Copy universal stuff
-    cd "./overlay/any"
+    cd "./patch/any"
         find . -type d -exec chmod -R a+w $sysroot_dir/{} ';'
     cd ../..
 
     chmod a+w $sysroot_dir/
-    cp -r ./overlay/any/* $sysroot_dir/
+    cp -r ./patch/any/* $sysroot_dir/
     chmod a-w $sysroot_dir/
-    cd "./overlay/any"
+    cd "./patch/any"
         find . -type d -exec chmod -R a-w $sysroot_dir/{} ';'
     cd ../..
 
