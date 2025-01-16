@@ -89,6 +89,21 @@ Setup_SDK() {
         sed -i "s@%TARGET%@$tc_target@g" "$filepath"
     done
 
+
+
+    echo "[*] Executing jobs for additional libraries"
+    ###
+    # Lipc
+    ###
+    echo "[*] Copying openlipc"
+    cp ./openlipc/include/openlipc.h ./overlay/any/usr/include/lipc.h
+
+    echo "[*] Copying cJSON"
+    cp ./cJSON/cJSON.h ./overlay/any/usr/include/cJSON.h
+    cp ./cJSON/cJSON_Utils.h ./overlay/any/usr/include/cJSON_Utils.h
+
+
+
     echo "[*] Copying overlay files to sysroot"
     # Copy universal stuff
     cd "./overlay/any"
@@ -101,29 +116,6 @@ Setup_SDK() {
     cd "./overlay/any"
         find . -type d -exec chmod -R a-w $sysroot_dir/{} ';'
     cd ../..
-
-
-
-    echo "[*] Executing jobs for additional libraries"
-    ###
-    # Lipc
-    ###
-    echo "[*] Copying openlipc to sysroot"
-    chmod a+w $sysroot_dir/usr/include
-    chmod a+w $sysroot_dir/usr/include/lipc.h
-    cp ./openlipc/include/openlipc.h $sysroot_dir/usr/include/lipc.h
-    chmod a-w $sysroot_dir/usr/include/lipc.h
-    chmod a-w $sysroot_dir/usr/include
-
-    ###
-    # cJSON
-    ###
-    echo "[*] Copying cJSON to sysroot"
-    chmod a+w $sysroot_dir/usr/include
-    chmod a+w $sysroot_dir/usr/include/cJSON.h
-    cp ./cJSON/cJSON.h $sysroot_dir/usr/include/cJSON.h
-    chmod a-w $sysroot_dir/usr/include
-    chmod a-w $sysroot_dir/usr/include/cJSON.h
 
 
 
