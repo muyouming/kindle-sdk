@@ -1,11 +1,9 @@
 #!/bin/sh
 
-ARMEL_FIRM_URL="https://s3.amazonaws.com/G7G_FirmwareUpdates_WebDownloads/update_kindle_5.4.2.bin" # MUH GLIBC
-ARMHF_FIRM_URL="https://s3.amazonaws.com/firmwaredownloads/update_kindle_all_new_paperwhite_v2_5.16.3.bin"
-
 Setup_SDK() {
     tc_target="$1"
     arch="$2"
+    FIRM_URL="$3"
     tc_dir="$HOME/x-tools/$tc_target"
     sysroot_dir="$tc_dir/$tc_target/sysroot"
 
@@ -47,21 +45,11 @@ Setup_SDK() {
 
     echo "[*] Downloading Kindle firmware"
 
-    if ! [ -d "./cache/${arch}" ]; then
-        mkdir -p ./cache/${arch}
+    if ! [ -d "./cache/${tc_target}" ]; then
+        mkdir -p ./cache/${tc_target}
     fi
-    if ! [ -f "./cache/${arch}/firmware.bin" ]; then
-        case $arch in
-            armhf)
-                FIRM_URL=$ARMHF_FIRM_URL
-                ;;
-            armel)
-                FIRM_URL=$ARMEL_FIRM_URL
-                ;;
-        esac
-        echo "Downloading from: ${FIRM_URL}"
-        curl --progress-bar -L "${FIRM_URL}" -o "./cache/${arch}/firmware.bin"
-    fi
+    echo "Downloading from: ${FIRM_URL}"
+    curl --progress-bar -L -C - "${FIRM_URL}" -o "./cache/${tc_target}/firmware.bin"
 
     echo "[*] Building Latest KindleTool"
     cd KindleTool/
@@ -69,12 +57,12 @@ Setup_SDK() {
     cd ..
 
     echo "[*] Extracting firmware"
-    if [ -d "./cache/${arch}/firmware/" ]; then
-        sudo rm -rf "./cache/${arch}/firmware/"
+    if [ -d "./cache/${tc_target}/firmware/" ]; then
+        sudo rm -rf "./cache/${tc_target}/firmware/"
     fi
 
-    KindleTool/KindleTool/Release/kindletool extract "./cache/${arch}/firmware.bin" "./cache/${arch}/firmware/"
-    cd "./cache/${arch}/firmware/"
+    KindleTool/KindleTool/Release/kindletool extract "./cache/${tc_target}/firmware.bin" "./cache/${tc_target}/firmware/"
+    cd "./cache/${tc_target}/firmware/"
         gunzip rootfs.img.gz
         mkdir mnt
         sudo mount -o loop rootfs.img mnt
@@ -123,10 +111,10 @@ Setup_SDK() {
     echo "[*] Copying firmware library files to sysroot"
     chmod -R a+w $sysroot_dir/lib
     chmod -R a+w $sysroot_dir/usr/lib
-    sudo chown -R $USER: ./cache/${arch}/firmware/mnt/usr/lib/*
-    sudo chown -R $USER: ./cache/${arch}/firmware/mnt/lib/*
-    cp -rn ./cache/${arch}/firmware/mnt/usr/lib/* $sysroot_dir/usr/lib/
-    cp -rn ./cache/${arch}/firmware/mnt/lib/* $sysroot_dir/lib/
+    sudo chown -R $USER: ./cache/${tc_target}/firmware/mnt/usr/lib/*
+    sudo chown -R $USER: ./cache/${tc_target}/firmware/mnt/lib/*
+    cp -rn ./cache/${tc_target}/firmware/mnt/usr/lib/* $sysroot_dir/usr/lib/
+    cp -rn ./cache/${tc_target}/firmware/mnt/lib/* $sysroot_dir/lib/
     chmod -R a-w $sysroot_dir/usr/lib
     chmod -R a-w $sysroot_dir/lib
 
@@ -135,7 +123,7 @@ Setup_SDK() {
 
 
     echo "[*] Cleaning up"
-    cd "./cache/${arch}/firmware/"
+    cd "./cache/${tc_target}/firmware/"
         sudo umount mnt
     cd ../../..
 
@@ -172,10 +160,10 @@ case $1 in
 		exit 0
 		;;
 	kindlehf)
-		Setup_SDK "arm-${1}-linux-gnueabihf" "armhf"
+		Setup_SDK "arm-${1}-linux-gnueabihf" "armhf" "https://s3.amazonaws.com/firmwaredownloads/update_kindle_all_new_paperwhite_v2_5.16.3.bin"
 		;;
 	kindlepw2)
-		Setup_SDK "arm-${1}-linux-gnueabi" "armel"
+		Setup_SDK "arm-${1}-linux-gnueabi" "armel" "https://s3.amazonaws.com/G7G_FirmwareUpdates_WebDownloads/update_kindle_5.4.2.bin"
 		;;
 	*)
 		echo "[!] $1 not supported!"
