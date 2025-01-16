@@ -49,7 +49,7 @@ Setup_SDK() {
         mkdir -p ./cache/${tc_target}
     fi
     echo "Downloading from: ${FIRM_URL}"
-    curl --progress-bar -L -C - "${FIRM_URL}" -o "./cache/${tc_target}/firmware.bin"
+    curl --progress-bar -L -C - -o "./cache/${tc_target}/firmware.bin" "${FIRM_URL}"
 
     echo "[*] Building Latest KindleTool"
     cd KindleTool/
