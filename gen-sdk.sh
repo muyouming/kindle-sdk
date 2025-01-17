@@ -80,8 +80,8 @@ Setup_SDK() {
     
 
     echo "[*] Parsing pkgconfig files for any"
-    mkdir -p ./patch/any/usr/lib/
-    cp -r ./pkgconfig/any ./patch/any/usr/lib/pkgconfig
+    mkdir -p ./patch/any/usr/lib/pkgconfig/
+    cp -r ./pkgconfig/any/* ./patch/any/usr/lib/pkgconfig/
     for filepath in ./patch/any/usr/lib/pkgconfig/*
     do
         sed -i "s@%SYSROOT%@$sysroot_dir@g" "$filepath"
@@ -89,8 +89,8 @@ Setup_SDK() {
     done
 
     echo "[*] Parsing pkgconfig files for $sdk_target"
-    mkdir -p ./patch/$sdk_target/usr/lib/
-    cp -r ./pkgconfig/$sdk_target ./patch/$sdk_target/usr/lib/pkgconfig
+    mkdir -p ./patch/$sdk_target/usr/lib/pkgconfig/
+    cp -r ./pkgconfig/$sdk_target/* ./patch/$sdk_target/usr/lib/pkgconfig/
     for filepath in ./patch/$sdk_target/usr/lib/pkgconfig/*
     do
         sed -i "s@%SYSROOT%@$sysroot_dir@g" "$filepath"
