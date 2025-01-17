@@ -81,6 +81,7 @@ Setup_SDK() {
     
 
     echo "[*] Parsing pkgconfig files for any"
+    rm -rf ./patch/any/usr/lib/pkgconfig/
     mkdir -p ./patch/any/usr/lib/pkgconfig/
     cp -r ./pkgconfig/any/* ./patch/any/usr/lib/pkgconfig/
     for filepath in ./patch/any/usr/lib/pkgconfig/*
@@ -90,6 +91,7 @@ Setup_SDK() {
     done
 
     echo "[*] Parsing pkgconfig files for $sdk_target"
+    rm -rf ./patch/$sdk_target/usr/lib/pkgconfig/
     mkdir -p ./patch/$sdk_target/usr/lib/pkgconfig/
     cp -r ./pkgconfig/$sdk_target/* ./patch/$sdk_target/usr/lib/pkgconfig/
     for filepath in ./patch/$sdk_target/usr/lib/pkgconfig/*
