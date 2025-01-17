@@ -2,10 +2,19 @@
 
 Setup_SDK() {
     tc_target="$1"
-    arch="$2"
+    sdk_target="$2"
     FIRM_URL="$3"
     tc_dir="$HOME/x-tools/$tc_target"
     sysroot_dir="$tc_dir/$tc_target/sysroot"
+    
+    case $sdk_target in
+        kindlehf)
+            arch="armhf"
+            ;;
+        *)
+            arch="armel"
+            ;;
+    esac
 
     if ! [ -d $tc_dir ]; then
         echo "[ERROR ] Toolchain not installed - Please setup koxtoolchain for target $tc_target"
@@ -70,10 +79,19 @@ Setup_SDK() {
 
     
 
-    echo "[*] Parsing pkgconfig files"
-    mkdir -p ./patch/any/usr/lib/pkgconfig
-    cp -r ./pkgconfig ./patch/any/usr/lib/
+    echo "[*] Parsing pkgconfig files for any"
+    mkdir -p ./patch/any/usr/lib/
+    cp -r ./pkgconfig/any ./patch/any/usr/lib/pkgconfig
     for filepath in ./patch/any/usr/lib/pkgconfig/*
+    do
+        sed -i "s@%SYSROOT%@$sysroot_dir@g" "$filepath"
+        sed -i "s@%TARGET%@$tc_target@g" "$filepath"
+    done
+
+    echo "[*] Parsing pkgconfig files for $sdk_target"
+    mkdir -p ./patch/$sdk_target/usr/lib/
+    cp -r ./pkgconfig/$sdk_target ./patch/$sdk_target/usr/lib/pkgconfig
+    for filepath in ./patch/$sdk_target/usr/lib/pkgconfig/*
     do
         sed -i "s@%SYSROOT%@$sysroot_dir@g" "$filepath"
         sed -i "s@%TARGET%@$tc_target@g" "$filepath"
@@ -92,7 +110,7 @@ Setup_SDK() {
 
 
 
-    echo "[*] Copying patch files to sysroot"
+    echo "[*] Copying patch files for any to sysroot"
     # Copy universal stuff
     cd "./patch/any"
         find . -type d -exec chmod -R a+w $sysroot_dir/{} ';'
@@ -102,6 +120,20 @@ Setup_SDK() {
     cp -r ./patch/any/* $sysroot_dir/
     chmod a-w $sysroot_dir/
     cd "./patch/any"
+        find . -type d -exec chmod -R a-w $sysroot_dir/{} ';'
+    cd ../..
+
+
+    echo "[*] Copying patch files for $sdk_target to sysroot"
+    # Copy universal stuff
+    cd "./patch/$sdk_target"
+        find . -type d -exec chmod -R a+w $sysroot_dir/{} ';'
+    cd ../..
+
+    chmod a+w $sysroot_dir/
+    cp -r ./patch/$sdk_target/* $sysroot_dir/
+    chmod a-w $sysroot_dir/
+    cd "./patch/$sdk_target"
         find . -type d -exec chmod -R a-w $sysroot_dir/{} ';'
     cd ../..
 
@@ -160,10 +192,13 @@ case $1 in
 		exit 0
 		;;
 	kindlehf)
-		Setup_SDK "arm-${1}-linux-gnueabihf" "armhf" "https://s3.amazonaws.com/firmwaredownloads/update_kindle_all_new_paperwhite_v2_5.16.3.bin"
+		Setup_SDK "arm-${1}-linux-gnueabihf" "kindlehf" "https://s3.amazonaws.com/firmwaredownloads/update_kindle_all_new_paperwhite_v2_5.16.3.bin"
+		;;
+    kindlepw4)
+		Setup_SDK "arm-${1}-linux-gnueabi" "kindlepw4" "https://s3.amazonaws.com/firmwaredownloads/update_kindle_all_new_paperwhite_v2_5.10.1.2.bin"
 		;;
 	kindlepw2)
-		Setup_SDK "arm-${1}-linux-gnueabi" "armel" "https://s3.amazonaws.com/G7G_FirmwareUpdates_WebDownloads/update_kindle_5.4.2.bin"
+		Setup_SDK "arm-${1}-linux-gnueabi" "kindlepw2" "https://s3.amazonaws.com/G7G_FirmwareUpdates_WebDownloads/update_kindle_5.4.2.bin"
 		;;
 	*)
 		echo "[!] $1 not supported!"
