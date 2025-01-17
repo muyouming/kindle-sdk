@@ -102,11 +102,13 @@ Setup_SDK() {
     # Lipc
     ###
     echo "[*] Copying openlipc"
-    cp ./openlipc/include/openlipc.h ./patch/any/usr/include/lipc.h
+    cp ./modules/openlipc/include/openlipc.h ./patch/any/usr/include/lipc.h
 
     echo "[*] Copying cJSON"
-    cp ./cJSON/cJSON.h ./patch/any/usr/include/cJSON.h
-    cp ./cJSON/cJSON_Utils.h ./patch/any/usr/include/cJSON_Utils.h
+    cp ./modules/cJSON/cJSON.h ./patch/any/usr/include/cJSON.h
+    cp ./modules/cJSON/cJSON_Utils.h ./patch/any/usr/include/cJSON_Utils.h
+
+    echo "[*] Downloaidng CURL"
 
 
 
@@ -195,7 +197,7 @@ case $1 in
 		Setup_SDK "arm-kindlehf-linux-gnueabihf" "kindlehf" "https://s3.amazonaws.com/firmwaredownloads/update_kindle_all_new_paperwhite_v2_5.16.3.bin"
 		;;
     kindlepw4)
-		Setup_SDK "arm-kindlehf-linux-gnueabi" "kindlepw4" "https://s3.amazonaws.com/firmwaredownloads/update_kindle_all_new_paperwhite_v2_5.10.1.2.bin"
+		Setup_SDK "arm-kindlepw4-linux-gnueabi" "kindlepw4" "https://s3.amazonaws.com/firmwaredownloads/update_kindle_all_new_paperwhite_v2_5.10.1.2.bin"
 		;;
 	kindlepw2)
 		Setup_SDK "arm-kindlepw2-linux-gnueabi" "kindlepw2" "https://s3.amazonaws.com/G7G_FirmwareUpdates_WebDownloads/update_kindle_5.4.2.bin"

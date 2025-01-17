@@ -1,9 +1,12 @@
 [submodule "KindleTool"]
 	path = KindleTool
 	url = https://github.com/KindleModding/KindleTool.git
-[submodule "openlipc"]
-	path = openlipc
-	url = https://github.com/arkq/openlipc.git
-[submodule "cJSON"]
-	path = cJSON
+[submodule "modules/cJSON"]
+	path = modules/cJSON
 	url = https://github.com/DaveGamble/cJSON.git
+[submodule "modules/openlipc"]
+	path = modules/openlipc
+	url = https://github.com/arkq/openlipc.git
+[submodule "modules/curl"]
+	path = modules/curl
+	url = https://github.com/curl/curl.git
