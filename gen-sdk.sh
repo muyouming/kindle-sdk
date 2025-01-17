@@ -78,7 +78,11 @@ Setup_SDK() {
         sudo mount -o loop rootfs.img mnt
     cd ../../..
 
-    
+    echo "[*] Wiping target pkgconfig files"
+    chmod a+w $sysroot_dir/usr/lib/
+    chmod -R a+w $sysroot_dir/usr/lib/pkgconfig
+    rm -rf $sysroot_dir/usr/lib/pkgconfig
+    chmod a-w $sysroot_dir/usr/lib/
 
     echo "[*] Parsing pkgconfig files for any"
     rm -rf ./patch/any/usr/lib/pkgconfig/
@@ -112,6 +116,7 @@ Setup_SDK() {
     cp ./modules/cJSON/cJSON_Utils.h ./patch/any/usr/include/cJSON_Utils.h
 
     echo "[*] Copying libcurl"
+    rm -rf ./patch/any/usr/include/curl
     cp -r ./modules/curl/include/curl ./patch/any/usr/include/curl
 
     echo "[*] Copying patch files for any to sysroot"
@@ -199,6 +204,7 @@ case $1 in
 		Setup_SDK "arm-kindlehf-linux-gnueabihf" "kindlehf" "https://s3.amazonaws.com/firmwaredownloads/update_kindle_all_new_paperwhite_v2_5.16.3.bin"
 		;;
     kindlepw4)
+        Setup_SDK "arm-kindlepw4-linux-gnueabi" "kindlepw2" "https://s3.amazonaws.com/firmwaredownloads/update_kindle_all_new_paperwhite_v2_5.10.1.2.bin"
 		Setup_SDK "arm-kindlepw4-linux-gnueabi" "kindlepw4" "https://s3.amazonaws.com/firmwaredownloads/update_kindle_all_new_paperwhite_v2_5.10.1.2.bin"
 		;;
 	kindlepw2)
