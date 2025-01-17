@@ -48,6 +48,7 @@ Setup_SDK() {
     echo "endian = 'little'" >> $tc_dir/meson-crosscompile.txt
     echo "" >> $tc_dir/meson-crosscompile.txt
     echo "[properties]" >> $tc_dir/meson-crosscompile.txt
+    echo "pkg_config_libdir = '$tc_dir/$tc_target/sysroot/usr/lib/pkgconfig'" >> $tc_dir/meson-crosscompile.txt
     echo "target='Kindle'" >> $tc_dir/meson-crosscompile.txt
     echo "arch = '$arch'" >> $tc_dir/meson-crosscompile.txt
     chmod a-w $tc_dir/meson-crosscompile.txt
