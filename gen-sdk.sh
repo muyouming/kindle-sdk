@@ -108,9 +108,8 @@ Setup_SDK() {
     cp ./modules/cJSON/cJSON.h ./patch/any/usr/include/cJSON.h
     cp ./modules/cJSON/cJSON_Utils.h ./patch/any/usr/include/cJSON_Utils.h
 
-    echo "[*] Downloaidng CURL"
-
-
+    echo "[*] Copying libcurl"
+    cp -r ./modules/curl/include/curl ./patch/any/usr/include/curl
 
     echo "[*] Copying patch files for any to sysroot"
     # Copy universal stuff
