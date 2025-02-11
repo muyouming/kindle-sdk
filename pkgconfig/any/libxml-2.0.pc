@@ -7,7 +7,6 @@ modules=1
 Name: libXML
 Version: 2.13.5
 Description: libXML library version2.
-Requires.private:  zlib liblzma icu-i18n
 Libs: -L${libdir} -lxml2 
 Libs.private:    -lm   
 Cflags: -I${includedir}/libxml2
