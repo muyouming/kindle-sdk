@@ -21,14 +21,14 @@ Setup_SDK() {
         exit 1
     fi
 
-    chmod a-w $tc_dir
+    chmod -f a-w $tc_dir
     echo "[*] Setting up SDK for $1"
 
     echo "[*] Generating Meson crosscompilation file"
-    chmod a+w $tc_dir
+    chmod -f a+w $tc_dir
 
     if [ -f "$tc_dir/meson-crosscompile.txt" ]; then
-        chmod a+w $tc_dir/meson-crosscompile.txt
+        chmod -f a+w $tc_dir/meson-crosscompile.txt
     fi
 
     echo "[binaries]" > $tc_dir/meson-crosscompile.txt
@@ -51,7 +51,7 @@ Setup_SDK() {
     echo "pkg_config_libdir = '$tc_dir/$tc_target/sysroot/usr/lib/pkgconfig'" >> $tc_dir/meson-crosscompile.txt
     echo "target='Kindle'" >> $tc_dir/meson-crosscompile.txt
     echo "arch = '$arch'" >> $tc_dir/meson-crosscompile.txt
-    chmod a-w $tc_dir/meson-crosscompile.txt
+    chmod -f a-w $tc_dir/meson-crosscompile.txt
 
     echo "[*] Downloading Kindle firmware"
 
@@ -79,10 +79,10 @@ Setup_SDK() {
     cd ../../..
 
     echo "[*] Wiping target pkgconfig files"
-    chmod a+w $sysroot_dir/usr/lib/
-    chmod -R a+w $sysroot_dir/usr/lib/pkgconfig
+    chmod -f a+w $sysroot_dir/usr/lib/
+    chmod -f -R a+w $sysroot_dir/usr/lib/pkgconfig
     rm -rf $sysroot_dir/usr/lib/pkgconfig
-    chmod a-w $sysroot_dir/usr/lib/
+    chmod -f a-w $sysroot_dir/usr/lib/
 
     echo "[*] Parsing pkgconfig files for any"
     rm -rf ./patch/any/usr/lib/pkgconfig/
@@ -122,45 +122,45 @@ Setup_SDK() {
     echo "[*] Copying patch files for any to sysroot"
     # Copy universal stuff
     cd "./patch/any"
-        find . -type d -exec chmod -R a+w $sysroot_dir/{} ';'
+        find . -type d -exec chmod -f -R a+w $sysroot_dir/{} ';'
     cd ../..
 
-    chmod a+w $sysroot_dir/
+    chmod -f a+w $sysroot_dir/
     cp -r ./patch/any/* $sysroot_dir/
-    chmod a-w $sysroot_dir/
+    chmod -f a-w $sysroot_dir/
     cd "./patch/any"
-        find . -type d -exec chmod -R a-w $sysroot_dir/{} ';'
+        find . -type d -exec chmod -f -R a-w $sysroot_dir/{} ';'
     cd ../..
 
 
     echo "[*] Copying patch files for $sdk_target to sysroot"
     # Copy universal stuff
     cd "./patch/$sdk_target"
-        find . -type d -exec chmod -R a+w $sysroot_dir/{} ';'
+        find . -type d -exec chmod -f -R a+w $sysroot_dir/{} ';'
     cd ../..
 
-    chmod a+w $sysroot_dir/
+    chmod -f a+w $sysroot_dir/
     cp -r ./patch/$sdk_target/* $sysroot_dir/
-    chmod a-w $sysroot_dir/
+    chmod -f a-w $sysroot_dir/
     cd "./patch/$sdk_target"
-        find . -type d -exec chmod -R a-w $sysroot_dir/{} ';'
+        find . -type d -exec chmod -f -R a-w $sysroot_dir/{} ';'
     cd ../..
 
 
 
 
     echo "[*] Copying firmware library files to sysroot"
-    chmod -R a+w $sysroot_dir/lib
-    chmod -R a+w $sysroot_dir/usr/lib
+    chmod -f -R a+w $sysroot_dir/lib
+    chmod -f -R a+w $sysroot_dir/usr/lib
     sudo chown -R $USER: ./cache/${tc_target}/firmware/mnt/usr/lib/*
     sudo chown -R $USER: ./cache/${tc_target}/firmware/mnt/lib/*
     cp -rn ./cache/${tc_target}/firmware/mnt/usr/lib/* $sysroot_dir/usr/lib/
     cp -rn ./cache/${tc_target}/firmware/mnt/lib/* $sysroot_dir/lib/
-    chmod -R a-w $sysroot_dir/usr/lib
-    chmod -R a-w $sysroot_dir/lib
+    chmod -f -R a-w $sysroot_dir/usr/lib
+    chmod -f -R a-w $sysroot_dir/lib
 
 
-    chmod a-w $tc_dir/
+    chmod -f a-w $tc_dir/
 
 
     echo "[*] Cleaning up"
