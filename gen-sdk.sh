@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e # Stop on error
+
 Setup_SDK() {
     tc_target="$1"
     sdk_target="$2"
