@@ -81,10 +81,12 @@ Setup_SDK() {
     cd ../../..
 
     echo "[*] Wiping target pkgconfig files"
-    chmod -f a+w $sysroot_dir/usr/lib/
-    chmod -f -R a+w $sysroot_dir/usr/lib/pkgconfig
-    rm -rf $sysroot_dir/usr/lib/pkgconfig
-    chmod -f a-w $sysroot_dir/usr/lib/
+    if [ -d "$sysroot_dir/usr/lib/pkgconfig" ]; then
+        chmod -f a+w $sysroot_dir/usr/lib/
+        chmod -f -R a+w $sysroot_dir/usr/lib/pkgconfig
+        rm -rf $sysroot_dir/usr/lib/pkgconfig
+        chmod -f a-w $sysroot_dir/usr/lib/
+    fi
 
     echo "[*] Parsing pkgconfig files for any"
     rm -rf ./patch/any/usr/lib/pkgconfig/
