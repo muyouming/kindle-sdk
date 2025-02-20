@@ -2,6 +2,12 @@
 
 set -e # Stop on error
 
+RM_If_Exists() {
+    if [ -d $1 ] || [ -f $1 ]; then
+        rm -rf $1
+    fi
+}
+
 Setup_SDK() {
     tc_target="$1"
     sdk_target="$2"
@@ -84,12 +90,12 @@ Setup_SDK() {
     if [ -d "$sysroot_dir/usr/lib/pkgconfig" ]; then
         chmod -f a+w $sysroot_dir/usr/lib/
         chmod -f -R a+w $sysroot_dir/usr/lib/pkgconfig
-        rm -rf $sysroot_dir/usr/lib/pkgconfig
+        RM_If_Exists $sysroot_dir/usr/lib/pkgconfig
         chmod -f a-w $sysroot_dir/usr/lib/
     fi
 
     echo "[*] Parsing pkgconfig files for any"
-    rm -rf ./patch/any/usr/lib/pkgconfig/
+    RM_If_Exists ./patch/any/usr/lib/pkgconfig
     mkdir -p ./patch/any/usr/lib/pkgconfig/
     cp -r ./pkgconfig/any/* ./patch/any/usr/lib/pkgconfig/
     for filepath in ./patch/any/usr/lib/pkgconfig/*
@@ -99,7 +105,7 @@ Setup_SDK() {
     done
 
     echo "[*] Parsing pkgconfig files for $sdk_target"
-    rm -rf ./patch/$sdk_target/usr/lib/pkgconfig/
+    RM_If_Exists ./patch/$sdk_target/usr/lib/pkgconfig
     mkdir -p ./patch/$sdk_target/usr/lib/pkgconfig/
     cp -r ./pkgconfig/$sdk_target/* ./patch/$sdk_target/usr/lib/pkgconfig/
     for filepath in ./patch/$sdk_target/usr/lib/pkgconfig/*
@@ -120,7 +126,7 @@ Setup_SDK() {
     cp ./modules/cJSON/cJSON_Utils.h ./patch/any/usr/include/cJSON_Utils.h
 
     echo "[*] Copying libcurl"
-    rm -rf ./patch/any/usr/include/curl
+    RM_If_Exists ./patch/any/usr/include/curl
     cp -r ./modules/curl/include/curl ./patch/any/usr/include/curl
 
     echo "[*] Copying patch files for any to sysroot"
