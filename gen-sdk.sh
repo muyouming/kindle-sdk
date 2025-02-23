@@ -17,9 +17,7 @@ Setup_SDK() {
 
     # Just in case
     set +e
-    cd "./cache/${tc_target}/firmware/"
-    sudo umount mnt
-    cd ../../..
+    sudo umount "./cache/${tc_target}/firmware/mnt"
     set -e
     
     case $sdk_target in
