@@ -14,6 +14,13 @@ Setup_SDK() {
     FIRM_URL="$3"
     tc_dir="$HOME/x-tools/$tc_target"
     sysroot_dir="$tc_dir/$tc_target/sysroot"
+
+    # Just in case
+    set +e
+    cd "./cache/${tc_target}/firmware/"
+    sudo umount mnt
+    cd ../../..
+    set -e
     
     case $sdk_target in
         kindlehf)
@@ -105,15 +112,17 @@ Setup_SDK() {
         sed -i "s@%TARGET%@$tc_target@g" "$filepath"
     done
 
-    echo "[*] Parsing pkgconfig files for $sdk_target"
-    RM_If_Exists ./patch/$sdk_target/usr/lib/pkgconfig
-    mkdir -p ./patch/$sdk_target/usr/lib/pkgconfig/
-    cp -r ./pkgconfig/$sdk_target/* ./patch/$sdk_target/usr/lib/pkgconfig/
-    for filepath in ./patch/$sdk_target/usr/lib/pkgconfig/*
-    do
-        sed -i "s@%SYSROOT%@$sysroot_dir@g" "$filepath"
-        sed -i "s@%TARGET%@$tc_target@g" "$filepath"
-    done
+    if [ -d "./pkgconfig/$sdk_target" ]; then
+        echo "[*] Parsing pkgconfig files for $sdk_target"
+        RM_If_Exists ./patch/$sdk_target/usr/lib/pkgconfig
+        mkdir -p ./patch/$sdk_target/usr/lib/pkgconfig/
+        cp -r ./pkgconfig/$sdk_target/* ./patch/$sdk_target/usr/lib/pkgconfig/
+        for filepath in ./patch/$sdk_target/usr/lib/pkgconfig/*
+        do
+            sed -i "s@%SYSROOT%@$sysroot_dir@g" "$filepath"
+            sed -i "s@%TARGET%@$tc_target@g" "$filepath"
+        done
+    fi
 
     echo "[*] Executing jobs for additional libraries"
     ###
@@ -143,19 +152,19 @@ Setup_SDK() {
         find . -type d -exec chmod -f -R a-w $sysroot_dir/{} ';'
     cd ../..
 
+    if [ -d "./patch/$sdk_target" ]; then
+        echo "[*] Copying patch files for $sdk_target to sysroot"
+        cd "./patch/$sdk_target"
+            find . -type d -exec chmod -f -R a+w $sysroot_dir/{} ';'
+        cd ../..
 
-    echo "[*] Copying patch files for $sdk_target to sysroot"
-    # Copy universal stuff
-    cd "./patch/$sdk_target"
-        find . -type d -exec chmod -f -R a+w $sysroot_dir/{} ';'
-    cd ../..
-
-    chmod -f a+w $sysroot_dir/
-    cp -r ./patch/$sdk_target/* $sysroot_dir/
-    chmod -f a-w $sysroot_dir/
-    cd "./patch/$sdk_target"
-        find . -type d -exec chmod -f -R a-w $sysroot_dir/{} ';'
-    cd ../..
+        chmod -f a+w $sysroot_dir/
+        cp -r ./patch/$sdk_target/* $sysroot_dir/
+        chmod -f a-w $sysroot_dir/
+        cd "./patch/$sdk_target"
+            find . -type d -exec chmod -f -R a-w $sysroot_dir/{} ';'
+        cd ../..
+    fi
 
 
 
@@ -165,8 +174,8 @@ Setup_SDK() {
     chmod -f -R a+w $sysroot_dir/usr/lib
     sudo chown -R $USER: ./cache/${tc_target}/firmware/mnt/usr/lib/*
     sudo chown -R $USER: ./cache/${tc_target}/firmware/mnt/lib/*
-    cp -rn ./cache/${tc_target}/firmware/mnt/usr/lib/* $sysroot_dir/usr/lib/
-    cp -rn ./cache/${tc_target}/firmware/mnt/lib/* $sysroot_dir/lib/
+    cp -rn --remove-destination ./cache/${tc_target}/firmware/mnt/usr/lib/* $sysroot_dir/usr/lib/
+    cp -rn --remove-destination ./cache/${tc_target}/firmware/mnt/lib/* $sysroot_dir/lib/
     chmod -f -R a-w $sysroot_dir/usr/lib
     chmod -f -R a-w $sysroot_dir/lib
 
