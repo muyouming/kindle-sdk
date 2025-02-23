@@ -45,6 +45,7 @@ Setup_SDK() {
     echo "ar = '$tc_dir/bin/$tc_target-ar'" >> $tc_dir/meson-crosscompile.txt
     echo "strip = '$tc_dir/bin/$tc_target-strip'" >> $tc_dir/meson-crosscompile.txt
     echo "pkg-config = 'pkg-config'" >> $tc_dir/meson-crosscompile.txt
+    echo "pkgconfig = 'pkg-config'" >> $tc_dir/meson-crosscompile.txt # Yeah ok don't give me that look
     echo "" >> $tc_dir/meson-crosscompile.txt
     echo "[built-in options]" >> $tc_dir/meson-crosscompile.txt
     echo "pkg_config_path = '$tc_dir/$tc_target/sysroot/usr/lib/pkgconfig'" >> $tc_dir/meson-crosscompile.txt
